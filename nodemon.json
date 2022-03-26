@@ -1,3 +1,4 @@
 {
+  "ignore": ["src/client/*"],
   "exec": "babel-node src/server.js"
 }
