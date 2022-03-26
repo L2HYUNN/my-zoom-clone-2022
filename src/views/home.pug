@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    title DH Zoom
+  body
+    header
+      h1 DH Zoom
+    main
+      div#roomName 
+        form
+          input(type="text", placeholder="Enter Room Name", required) 
+          button Enter
+      div#videos
+      div#button
+        button#muteBtn Mute
+        button#cameraBtn Camera
+      div#cameras 
+        select
+
+        
+    
+    script(src="/socket.io/socket.io.js")
+    script(src="/client/js/app.js")
+    
+    
