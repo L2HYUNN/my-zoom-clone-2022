@@ -55,7 +55,7 @@ cameraBtn.addEventListener("click", handleCameraBtnClicked);
 const handleCameraChanged = async () => {
   await getMedia(camera.value);
   if (myPeerConnection) {
-    const videoTrack = myStrema.getVideoTracks()[0];
+    const videoTrack = myStream.getVideoTracks()[0];
     const videoSender = myPeerConnection.getSenders();
     console.log(videoSender);
   }
@@ -111,20 +111,21 @@ const getMedia = async (deviceId) => {
 
 const handleRoomNameFormSubmit = async (event) => {
   event.preventDefault();
-  socket.emit("enter_room", roomNameInput.value);
+  await getMedia();
+  makeConnection();
   roomName = roomNameInput.value;
+  socket.emit("enter_room", roomNameInput.value);
   videos.hidden = false;
   roomName.hidden = true;
   btn.hidden = false;
   cameras.hidden = false;
-  await getMedia();
-  makeConnection();
 };
 
 roomNameForm.addEventListener("submit", handleRoomNameFormSubmit);
 
 // Socket Code
-socket.on("info_enter_room", async (roomName) => {
+socket.on("info_enter_room", async (roomName, count) => {
+  console.log(count);
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
@@ -137,7 +138,6 @@ socket.on("offer", async (offer) => {
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
   console.log("sent answer");
-  console.log(answer);
   socket.emit("answer", answer, roomName);
 });
 
